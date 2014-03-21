@@ -50,11 +50,25 @@ namespace :diagram do
 
   namespace :models do
 
-    desc 'Generates an class diagram for all models.'
+    desc 'Generates an class diagram for all models. No inheritance'
+    task :complete_no_inherit do
+      f = @MODELS_ALL
+      puts "Generating #{f}"
+      sh "railroady -lamM | #{@SED} | dot -T#{RailRoady::RakeHelpers.format} > #{f}"
+    end
+
+    desc 'Generates an class diagram for all models. No inheritance'
     task :complete do
       f = @MODELS_ALL
       puts "Generating #{f}"
       sh "railroady -ilamM | #{@SED} | dot -T#{RailRoady::RakeHelpers.format} > #{f}"
+    end
+
+    desc 'Generates an abbreviated class diagram for all models.'
+    task :brief_no_inherit do
+      f = @MODELS_BRIEF
+      puts "Generating #{f}"
+      sh "railroady -blamM | #{@SED} | dot -T#{RailRoady::RakeHelpers.format} > #{f}"
     end
 
     desc 'Generates an abbreviated class diagram for all models.'
