@@ -82,11 +82,25 @@ namespace :diagram do
 
   namespace :controllers do
 
+    desc 'Generates an class diagram for all controllers. No inheritance'
+    task :complete_no_inherit do
+      f = @CONTROLLERS_ALL
+      puts "Generating #{f}"
+      sh "railroady -lC | #{@SED} | neato -T#{RailRoady::RakeHelpers.format} > #{f}"
+    end
+
     desc 'Generates an class diagram for all controllers.'
     task :complete do
       f = @CONTROLLERS_ALL
       puts "Generating #{f}"
       sh "railroady -ilC | #{@SED} | neato -T#{RailRoady::RakeHelpers.format} > #{f}"
+    end
+
+    desc 'Generates an abbreviated class diagram for all controllers. No inheritance'
+    task :brief_no_inherit do
+      f = @CONTROLLERS_BRIEF
+      puts "Generating #{f}"
+      sh "railroady -blC | #{@SED} | neato -T#{RailRoady::RakeHelpers.format} > #{f}"
     end
 
     desc 'Generates an abbreviated class diagram for all controllers.'
@@ -97,6 +111,9 @@ namespace :diagram do
     end
 
   end
+
+  desc 'Generates all class diagrams. No inheritance'
+  task :all_no_inherit => ['diagram:models:complete_no_inherit', 'diagram:models:brief_no_inherit', 'diagram:controllers:complete_no_inherit', 'diagram:controllers:brief_no_inherit']
 
   desc 'Generates all class diagrams.'
   task :all => ['diagram:models:complete', 'diagram:models:brief', 'diagram:controllers:complete', 'diagram:controllers:brief']
